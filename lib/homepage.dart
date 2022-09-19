@@ -1,10 +1,11 @@
 import 'dart:io';
+import 'package:camera_platform_interface/src/types/camera_description.dart';
 import "package:flutter/material.dart";
 import 'package:image_picker/image_picker.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
-
+  var cameras;
+  HomePage(this.cameras);
   @override
   State<HomePage> createState() => _HomePageState();
 }
@@ -16,9 +17,9 @@ class _HomePageState extends State<HomePage> {
   bool isLoading = false;
   List<File?> fileList = [];
 
-  Future pickImageFromGallery() async {
+  Future pickImageFromGallery(cameras) async {
     pickedImage = await picker.pickImage(
-        source: ImageSource.gallery, preferredCameraDevice: CameraDevice.rear);
+        source: ImageSource.camera, preferredCameraDevice: CameraDevice.rear);
     setState(() {
       file = File(pickedImage!.path);
       fileList.add(file);
@@ -31,46 +32,10 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(title: const Text("Image Upload"), actions: [
         IconButton(
             onPressed: () {
-              pickImageFromGallery();
+              pickImageFromGallery(widget.cameras);
             },
             icon: const Icon(Icons.image))
       ]),
-      body: GridView.builder(
-        itemCount: fileList.length,
-        gridDelegate:
-            const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
-        itemBuilder: (BuildContext context, int i) {
-          return Container(
-            padding: const EdgeInsets.all(10),
-            child: Stack(
-              children: <Widget>[
-                SizedBox(
-                  height: 100,
-                  width: 100,
-                  child: Image.file(
-                    File(fileList[i]!.path),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                Positioned(
-                    right: 1,
-                    child: GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          dltImages(fileList[i]);
-                        });
-                      },
-                      child: const Icon(Icons.cancel, color: Colors.red),
-                    ))
-              ],
-            ),
-          );
-        },
-      ),
     );
-  }
-
-  void dltImages(data) {
-    fileList.remove(data);
   }
 }
