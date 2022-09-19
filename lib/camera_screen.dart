@@ -34,63 +34,68 @@ class _CameraScreenState extends State<CameraScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(children: [
-        FutureBuilder(
-            future: cameraValue,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.done) {
-                return CameraPreview(_controller);
-              } else {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-            }),
-        Container(
-          color: Colors.black,
-          width: MediaQuery.of(context).size.width,
-          child: Column(children: [
-            Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                IconButton(
-                  icon: Icon(
-                    Icons.flash_off,
-                    color: Colors.white,
-                    size: 28,
+        appBar: AppBar(title: const Text("Image Upload"), actions: [
+      IconButton(
+          onPressed: () {
+            Stack(children: [
+              FutureBuilder(
+                  future: cameraValue,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      return CameraPreview(_controller);
+                    } else {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                  }),
+              Container(
+                color: Colors.black,
+                width: MediaQuery.of(context).size.width,
+                child: Column(children: [
+                  Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      IconButton(
+                        icon: Icon(
+                          Icons.flash_off,
+                          color: Colors.white,
+                          size: 28,
+                        ),
+                        onPressed: () {},
+                      ),
+                      InkWell(
+                        onTap: (() {}),
+                        child: Icon(
+                          Icons.panorama_fish_eye,
+                          color: Colors.white,
+                          size: 70,
+                        ),
+                      ),
+                      IconButton(
+                        icon: Icon(
+                          Icons.flip_camera_ios,
+                          color: Colors.white,
+                          size: 28,
+                        ),
+                        onPressed: () {},
+                      )
+                    ],
                   ),
-                  onPressed: () {},
-                ),
-                InkWell(
-                  onTap: (() {}),
-                  child: Icon(
-                    Icons.panorama_fish_eye,
-                    color: Colors.white,
-                    size: 70,
+                  SizedBox(
+                    height: 4,
                   ),
-                ),
-                IconButton(
-                  icon: Icon(
-                    Icons.flip_camera_ios,
-                    color: Colors.white,
-                    size: 28,
-                  ),
-                  onPressed: () {},
-                )
-              ],
-            ),
-            SizedBox(
-              height: 4,
-            ),
-            Text(
-              "Hold for video, tap for photo",
-              style: TextStyle(color: Colors.white),
-              textAlign: TextAlign.center,
-            )
-          ]),
-        ),
-      ]),
-    );
+                  Text(
+                    "Hold for video, tap for photo",
+                    style: TextStyle(color: Colors.white),
+                    textAlign: TextAlign.center,
+                  )
+                ]),
+              ),
+            ]);
+          },
+          icon: const Icon(Icons.image))
+    ]));
   }
 }
