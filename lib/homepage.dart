@@ -36,6 +36,42 @@ class _HomePageState extends State<HomePage> {
             },
             icon: const Icon(Icons.image))
       ]),
+      body: GridView.builder(
+        itemCount: fileList.length,
+        gridDelegate:
+            const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+        itemBuilder: (BuildContext context, int i) {
+          return Container(
+            padding: const EdgeInsets.all(10),
+            child: Stack(
+              children: <Widget>[
+                SizedBox(
+                  height: 100,
+                  width: 100,
+                  child: Image.file(
+                    File(fileList[i]!.path),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                Positioned(
+                    right: 1,
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          dltImages(fileList[i]);
+                        });
+                      },
+                      child: const Icon(Icons.cancel, color: Colors.red),
+                    ))
+              ],
+            ),
+          );
+        },
+      ),
     );
+  }
+
+  void dltImages(data) {
+    fileList.remove(data);
   }
 }
