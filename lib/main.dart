@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_image_picker/camera_screen.dart';
 import './homepage.dart';
 import 'package:camera/camera.dart';
 
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: new HomePage(cameras),
+      home: new CameraScreen(cameras),
     );
   }
 }
